@@ -1,27 +1,20 @@
 from django.shortcuts import render
-from django.views import View
+from django.views.generic import ListView, DetailView
 from django.views.generic import DetailView
 
 from .models import Movie
 
 
-class MoviesView(View):
+class MoviesView(ListView):
     """Список фильмов"""
-    @staticmethod
-    def get(request):
-        movies = Movie.objects.all()
-        context = {
-            'movies': movies,
-        }
-        return render(request, 'movies/movies.html', context)
+    model = Movie
+    queryset = Movie.objects.filter(is_published=True)
+    context_object_name = 'movies'
+    template_name = 'movies/movies.html'
 
 
-class MovieDetail(View):
+class MovieDetail(DetailView):
     """Деталка для фильма"""
-    @staticmethod
-    def get(request, slug):
-        movie = Movie.objects.get(slug=slug)
-        context = {
-            'movie': movie,
-        }
-        return render(request, 'movies/movie_detail.html', context)
+    model = Movie
+    slug_field = 'slug'
+    template_name = 'movies/movie_detail.html'
