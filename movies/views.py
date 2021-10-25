@@ -19,9 +19,9 @@ class MoviesView(View):
 class MovieDetail(View):
     """Деталка для фильма"""
     @staticmethod
-    def get(request, pk):
-        movie = Movie.objects.get(id=pk)
+    def get(request, slug):
+        movie = Movie.objects.get(slug=slug)
         context = {
             'movie': movie,
         }
-        return render(request, 'movies/moviesingle.html', context)
+        return render(request, 'movies/movie_detail.html', context)
